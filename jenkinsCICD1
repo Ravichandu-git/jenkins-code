@@ -1,0 +1,30 @@
+pipeline {
+		agent{
+		   label 'maven-2'
+		   }
+		   stages{
+			   stage ('checkout-stage') {
+			   steps {
+			   git branch: 'main', url: 'https://github.com/Ravichandu-git/java-example.git'
+			   }
+			}
+			   
+		   stage ('test-stage') {
+			   steps {
+			   echo 'this is the test build'
+			   }
+			}
+		
+		stage ('build-stage') {
+			   steps {
+			   sh 'mvn clean install'
+			   }
+			}
+			
+			stage ('deploy-stage') {
+			   steps {
+			   sh 'sudo rsync -av ./target/*.war /opt/tomcat/apache-tomcat-9.0.98/webapps'
+			   }
+			}
+	}
+}
