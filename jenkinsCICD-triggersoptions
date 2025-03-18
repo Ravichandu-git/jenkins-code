@@ -1,0 +1,33 @@
+pipeline {
+		agent{
+		   label 'maven-2'
+		   }
+		   options {
+			retry(3)
+			timestamps()
+			buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '1', numToKeepStr: '3')
+}
+			triggers {
+            pollSCM('H */4 * * 1-5')
+			}
+		   stages{
+			   stage ('checkout-stage') {
+			   steps {
+			   echo 'this is the checkout-stage'
+			   }
+			}
+			   
+		   stage ('test-stage') {
+			   steps {
+			   echo 'this is the test-stage'
+			   }
+			}
+		
+		stage ('build-stage') {
+			   steps {
+			   echo 'this is the build-stage'
+			   }
+			}
+			
+	}
+}
